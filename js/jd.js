@@ -19,12 +19,21 @@ $('#bt-login').click(function(){
 		}
 	});
 });
+
+// 实现弹出登录或注册的模态框
 $(function(){
 	$('#header').on('click','#putDn',function(e){
 		e.preventDefault();
-		$('.modal').show();
+		 var modalId = $(this).data('modal');
+        $('#' + modalId).show();
 	});
+	        $('#header').on('click', '#registerLink', function(e){
+            e.preventDefault();
+            var modalId = $(this).data('modal');
+            $('#' + modalId).show();
+        });
 });
+
 $(function(){
 	loadProduct(1);
 });
@@ -35,6 +44,8 @@ $('.pager').on('click','a',function(e){
 	$(this).parent().addClass('active');
 	$(this).parent().siblings('.active').removeClass('active');
 });
+
+
 function loadProduct(pno){
 	$.getJSON('data/1_product_select.php',{'pno':pno},function(pager){
 		var html='';

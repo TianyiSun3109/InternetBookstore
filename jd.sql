@@ -8,6 +8,8 @@ CREATE TABLE jd_user(
   uname VARCHAR(32),
   upwd VARCHAR(32)
 );
+
+
 INSERT INTO jd_user VALUES
 ('1','qiangdong','123456'),
 ('2','naicha','456789');
