@@ -1,12 +1,13 @@
 import hashlib
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User
 from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-
+from user.models import JdUser
 def index(request):
     try:
         username = request.session['username']
@@ -33,7 +34,7 @@ def login(request):
         #         html = "<div><h1>恭喜！登录成功！</h1><div><a href='/user/index'>进入首页</a></div></div>"
         #         # 将用户信息存储到session里面
         #         # request.session['username'] = user.username
-
+        #
         #     else:
         #         html = "<div><h1>sorry,密码错误，请重新输入密码</h1><div><a href='/user/login'>重新登录</a></div></div>"
 
@@ -103,16 +104,25 @@ def mainpage(request):
 def header_views(request):
     return render(request, "user/header.html")
 
-
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        uname = list(JdUser.objects.values_list('uname', flat=True))
+        upwd = list(JdUser.objects.values_list('upwd', flat=True))
+        user = None
 
-        user = authenticate(request, username=username, password=password)
+        print(username, password)
+        print(uname,upwd)
+        if username in uname:
+            index = uname.index(username)
+            if password == upwd[index]:
+                user=True
+                print("true")
 
         if user is not None:
-            login(request, user)
+            # login(request, user)
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'error': 'Invalid credentials'})

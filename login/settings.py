@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'login.urls'
@@ -76,13 +77,21 @@ WSGI_APPLICATION = 'login.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     "USER": "root",
+    #     "PASSWORD": "sty20031009",
+    #     "HOST": "127.0.0.1",
+    #     "PORT": "3306",
+    #     'NAME': "login",
+    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        "NAME": "jd",
         "USER": "root",
-        "PASSWORD": "sty20031009",
-        "HOST": "127.0.0.1",
-        "PORT": 3306,
-        'NAME': "login",
+        "PASSWORD": "yan.248651379",
+        "HOST": "localhost",
+        "PORT": "3306",
     }
 }
 
