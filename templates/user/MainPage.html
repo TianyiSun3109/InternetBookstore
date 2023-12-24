@@ -15,7 +15,7 @@
                 <a href="#">收藏书店</a>
                 <div class="rt">
                     <ul>
-                        <li><span id='welcome'>您好，欢迎来到网上书店！</span>
+                        <li><span id='welcome' >您好，欢迎来到网上书店！</span>
                             <a href="#" id="putDn" data-modal="modal-login">[登录]</a>
                             <a href="#" id="registerLink" data-modal="modal-register">[免费注册]</a></li>
                         <li><b></b><a href="#">我的订单</a></li>
@@ -101,11 +101,11 @@
                     </ul>
                     <ol class="pager">
 											
-                        <li class="active"><a href="#" onclick="openLoginDialog()">1</a></li>
-                        <li><a href="#" onclick="openLoginDialog()">2</a></li>
-                        <li ><a href="#" onclick="openLoginDialog()">3</a></li>
-                        <li><a href="#" onclick="openLoginDialog()">4</a></li>
-                        <li><a href="#" onclick="openLoginDialog()">5</a></li>
+                        <li class="active"><a href="#" >1</a></li>
+                        <li><a href="#" >2</a></li>
+                        <li ><a href="#" >3</a></li>
+                        <li><a href="#" >4</a></li>
+                        <li><a href="#" >5</a></li>
 												
                     </ol>
                 </section>
@@ -142,10 +142,10 @@
             <form id="register-form">
                 <input type="text" placeholder="请输入注册用户名" name="uname" >
                 <input type="password" placeholder="请输入注册密码" name="upwd" >
-                <input type="button" value="提交注册信息" id="bt-register">
+                <input type="button" value="提交注册信息" id="bt-register" onclick="RegisterUser();">
                 <input type="button" name="close" value="关闭" onclick="closeModal('modal-register');" />
             </form>
-            <div id="Result"></div>
+            <div id="Result_2"></div>
         </div>
     </div>
 </div>
@@ -168,7 +168,22 @@
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     };
-        
+
+    // 退出登录
+    function logoutUser() {
+            var welcomeElement = document.getElementById("welcome");
+            var loginLinkElement = document.getElementById("putDn");
+            var registerLinkElement = document.getElementById("registerLink");
+
+            // 还原欢迎信息和登录、注册链接内容
+            welcomeElement.innerHTML = '您好，欢迎来到网上书店！';
+            loginLinkElement.innerHTML = '[登录]';
+            registerLinkElement.innerHTML = '[免费注册]';
+            closeModal('modal-register');
+        }
+
+    
+    // 登录    
     function loginUser() {
         var username = document.getElementById("login-form").elements["uname"].value;
         var password = document.getElementById("login-form").elements["upwd"].value;
@@ -182,10 +197,40 @@
                 password: password
             },
             success: function (result) {
-                // 处理登录成功的情况
+                // // 处理登录成功的情况
+                // if (result.success) {
+                //     // // 更新页面或执行其他操作
+                //     // document.getElementById("Result").innerHTML = '欢迎，' + username + '!';
+                //     // closeModal('modal-login');
+                                // 处理登录成功的情况
                 if (result.success) {
                     // 更新页面或执行其他操作
-                    document.getElementById("Result").innerHTML = '欢迎，' + username + '!';
+                    var welcomeElement = document.getElementById("welcome");
+                    var loginLinkElement = document.getElementById("putDn");
+                    var registerLinkElement = document.getElementById("registerLink");
+
+                    // // 更新DOM元素内容
+                    // welcomeElement.innerHTML = '您好，' + username + '!';
+                    // loginLinkElement.innerHTML = ''; // 清空登录链接内容
+                    // registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                   // 或者，如果需要保留链接并添加其他内容，可以使用以下方式
+                   welcomeElement.innerHTML = '你好，' + username + '![退出登录]';
+                    loginLinkElement.innerHTML = '';
+                    registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                        // 找到[退出登录]链接
+                        var logoutLinkElement = document.getElementById("welcome");
+
+                        // 给[退出登录]链接添加点击事件
+                        logoutLinkElement.addEventListener("click", function (event) {  
+                            // 阻止默认的链接跳转行为
+                            event.preventDefault();
+                            // 执行退出登录逻辑，例如调用logoutUser函数
+                            logoutUser();
+                            
+                        });
+                    closeModal('modal-login');
                 } else {
                     // 处理登录失败的情况
                     document.getElementById("Result").innerHTML = '登录失败';
@@ -195,22 +240,61 @@
                 // 处理AJAX请求错误
                 console.error('AJAX请求失败: ' + status + ', ' + error);
             }
-            // data: $('#login-form').serialize(),
-            // success: function (data) {
-            //     var result = document.getElementById("Result");
-            //     //提交成功
-            //     result.innerHTML = data[0].result;
-            //     if (data[0].result == "登陆成功") {
-            //         result.innerHTML = "登陆成功";
-            //     } else if (data[0].result == "fail") {
-            //         result.innerHTML = "登陆失败，账号或密码错误";
-            //     }
-            // },
-            // error: function (data) {
-            //     //提交失败的提示词或者其他反馈代码
-            //     var result = document.getElementById("Result");
-            //     result.innerHTML = "连接服务器失败";
-            // }
+        });
+    };
+
+    function RegisterUser() {
+        var username = document.getElementById("register-form").elements["uname"].value;
+        var password = document.getElementById("register-form").elements["upwd"].value;
+        
+        // 使用AJAX发送登录请求
+        $.ajax({
+            type: "POST",
+            url: "/user/register_user/", // 后端服务端点
+            data: {
+                username: username,
+                password: password
+            },
+            success: function (result) {
+                // 处理注册成功的情况
+                if (result.success) {
+                    // 更新页面或执行其他操作
+                    var welcomeElement = document.getElementById("welcome");
+                    var loginLinkElement = document.getElementById("putDn");
+                    var registerLinkElement = document.getElementById("registerLink");
+
+                    // // 更新DOM元素内容
+                    // welcomeElement.innerHTML = '您好，' + username + '!';
+                    // loginLinkElement.innerHTML = ''; // 清空登录链接内容
+                    // registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                    // 或者，如果需要保留链接并添加其他内容，可以使用以下方式
+                    welcomeElement.innerHTML = '你好，' + username + '![退出登录]';
+                    loginLinkElement.innerHTML = '';
+                    registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                    // 找到[退出登录]链接
+                    var logoutLinkElement = document.getElementById("welcome");
+
+                    // 给[退出登录]链接添加点击事件
+                    logoutLinkElement.addEventListener("click", function (event) {
+                        // 阻止默认的链接跳转行为
+                        event.preventDefault();
+                        // 执行退出登录逻辑，例如调用logoutUser函数
+                        logoutUser();
+
+                    });
+                    document.getElementById("Result_2").innerHTML = '注册成功！！！';
+                    // closeModal('modal-login');
+                } else {
+                    // 处理注册失败的情况
+                    document.getElementById("Result_2").innerHTML = '注册失败，用户名重复！';
+                }
+            },
+            error: function (xhr, status, error) {
+                // 处理AJAX请求错误
+                console.error('AJAX请求失败: ' + status + ', ' + error);
+            }
         });
     };
 
