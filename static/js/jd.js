@@ -4,31 +4,31 @@
 
 var loginName = null;
 
-$('#bt-login').click(function(){
-	$.ajax({
-		type: 'POST',
-		url:'data/1_login.php',
-		data:$('#login-form').serialize(),
-		success:function(obj){
-			if(obj.code===1000){
-				$('.modal').fadeOut();
-				loginName = $('[name="uname"]').val();
-				$('#welcome').html('欢迎回来：'+loginName);
-			}else{
-				$('.modal .alert').html(obj.msg);
-			}
-		}
-	});
-});
+// $('#bt-login').click(function(){
+// 	$.ajax({
+// 		type: 'POST',
+// 		url:'data/1_login.php',
+// 		data:$('#login-form').serialize(),
+// 		success:function(obj){
+// 			if(obj.code===1000){
+// 				$('.modal').fadeOut();
+// 				loginName = $('[name="uname"]').val();
+// 				$('#welcome').html('欢迎回来：'+loginName);
+// 			}else{
+// 				$('.modal .alert').html(obj.msg);
+// 			}
+// 		}
+// 	});
+// });
 
 // 实现弹出登录或注册的模态框
-$(function(){
-	$('#header').on('click','#putDn',function(e){
+$(function () {
+	$('#top').on('click','#putDn',function(e){
 		e.preventDefault();
 		 var modalId = $(this).data('modal');
         $('#' + modalId).show();
 	});
-	        $('#header').on('click', '#registerLink', function(e){
+	        $('#top').on('click', '#registerLink', function(e){
             e.preventDefault();
             var modalId = $(this).data('modal');
             $('#' + modalId).show();
@@ -50,6 +50,42 @@ $(document).ready(function() {
     // 其他 JavaScript 代码...
 
 });
+
+// function loginUser() {
+//     // 获取用户名和密码输入框的值
+//     var username = document.getElementById("login-form").elements["uname"].value;
+//     var password = document.getElementById("login-form").elements["upwd"].value;
+
+//     // 构建登录请求的数据
+//     var data = {
+//         username: username,
+//         password: password
+//     };
+// 	// data.append("csrfmiddlewaretoken",'{{ csrf_token }}');
+//     // 发送登录请求
+//     fetch('login_user', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(data)
+//     })
+//     .then(response => response.json())
+//     .then(result => {
+//         // 处理登录结果
+//         if (result.success) {
+//             // 登录成功，可以在这里执行一些操作，例如关闭模态框、更新页面等
+//             closeModal('modal-login');
+//             alert('登录成功！');
+//         } else {
+//             // 登录失败，可以在这里给用户一些反馈
+//             document.getElementById('Result').innerHTML = '登录失败，请检查用户名和密码。';
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//     });
+// }
 
 // $(function(){
 // 	loadProduct(1);

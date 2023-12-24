@@ -102,3 +102,19 @@ def mainpage(request):
     
 def header_views(request):
     return render(request, "user/header.html")
+
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
