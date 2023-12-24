@@ -81,3 +81,19 @@ INSERT INTO jd_product VALUES
 (35,'三星 Galaxy On5（G5500）金色 移动联通4G手机 真皮质感后盖，2600毫安大容量',699.00,'images/phone/phone_35.jpg'),
 (36,'OPPO A37 2GB+16GB内存版 玫瑰金 全网通4G手机 双卡双待 【赠品任你选】',1299.00,'images/phone/phone_36.jpg');
 
+CREATE TABLE IF NOT EXISTS jd_book (
+    year INT,
+    `Rank` INT,
+    name VARCHAR(255),
+    pinglun VARCHAR(63),
+    author VARCHAR(255),
+    chuban VARCHAR(255),
+    jiage VARCHAR(63),
+    yuanjia VARCHAR(63),
+    discount VARCHAR(63)
+);
+LOAD DATA LOCAL INFILE'book.csv'
+INTO TABLE jd_book character set utf8
+FIELDS TERMINATED BY ','  -- 根据实际情况修改分隔符
+LINES TERMINATED BY '\r\n'  -- 根据实际情况修改行分隔符
+IGNORE 1 LINES;
