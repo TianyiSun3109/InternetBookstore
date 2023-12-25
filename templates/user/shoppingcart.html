@@ -95,8 +95,9 @@
                 <thead>
                 <tr>
                     <th>
-                        <input type="checkbox" id="selAll"/>
-                        <label for="sel">全选</label>
+                        <input type="checkbox" class="all">
+                        <!input type="checkbox" id="selAll"/>
+                        <!label for="sel">全选<!/label>
                     </th>
                     <th>商品</th>
                     <th>单价（元）</th>
@@ -109,58 +110,58 @@
 								
                 <tr>
                     <td>
-                        <input type="checkbox"/>
+                        <input type="checkbox" class="sel"/>
                         <input type="hidden" value="1" />
                         <div><img src="../../static/img/images/phone/phone_01.jpg" alt=""/></div>
                     </td>
                     <td><a href="">小米 Note</a></td>
-                    <td>1199.00</td>
+                    <td class="price">1199.00</td>
                     <td>
-                        <button>-</button><input type="text" value="1"/><button>+</button>
+                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
                     </td>
-                    <td><span>1199.00</span></td>
+                    <td class="total"><span>1199.00</span></td>
                     <td><a href="">删除</a></td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox"/>
+                        <input type="checkbox" class="sel"/>
                         <input type="hidden" value="2" />
                         <div><img src="../../static/img/images/phone/phone_02.jpg" alt=""/></div>
                     </td>
                     <td><a href="">PPO R9 4GB+64GB内存版</a></td>
-                    <td>2499.00</td>
+                    <td class="price">2499.00</td>
                     <td>
-                        <button>-</button><input type="text" value="1"/><button>+</button>
+                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
                     </td>
-                    <td><span>2499.00</span></td>
+                    <td class="total"><span>2499.00</span></td>
                     <td><a href="">删除</a></td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox"/>
+                        <input type="checkbox" class="sel"/>
                         <input type="hidden" value="3" />
                         <div><img src="../../static/img/images/phone/phone_03.jpg" alt=""/></div>
                     </td>
                     <td><a href="">PPO R9 4GB+64GB内存版 玫瑰金</a></td>
-                    <td>2499.00</td>
+                    <td class="price">2499.00</td>
                     <td>
-                        <button>-</button><input type="text" value="1"/><button>+</button>
+                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
                     </td>
-                    <td><span>2499.00</span></td>
+                    <td class="total"><span>2499.00</span></td>
                     <td><a href="">删除</a></td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox"/>
+                        <input type="checkbox" class="sel"/>
                         <input type="hidden" value="4" />
                         <div><img src="../../static/img/images/phone/phone_04.jpg" alt=""/></div>
                     </td>
                     <td><a href="">小米 红米 3S 高配全网通 3GB内存</a></td>
-                    <td>899.00</td>
+                    <td class="price">899.00</td>
                     <td>
-                        <button>-</button><input type="text" value="1"/><button>+</button>
+                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
                     </td>
-                    <td><span>899.00</span></td>
+                    <td class="total"><span>899.00</span></td>
                     <td><a href="">删除</a></td>
                 </tr>
 								
@@ -181,7 +182,7 @@
                                         </div>
 
                 <div>
-                    总价：<span>123.60</span>
+                    总价：<span><i id="total_price">0</i></span>
                     <button>去结算</button>
                 </div>
             </footer>
@@ -232,6 +233,53 @@
 <script src="../../static/js/jd.js"></script>
 
 <script>
+
+    let adds = document.querySelectorAll('.add')
+    let reduces = document.querySelectorAll('.reduce')
+    let counts = document.querySelectorAll('.count')
+    let prices =document.querySelectorAll('.price')
+    let totals =document.querySelectorAll('.total')
+    let total_price = document.querySelector('#total_price')
+    let sel = document.querySelectorAll('.sel')
+    let all = document.querySelector('.all')
+
+    all.addEventListener('click',function(){
+        for(let i = 0; i < sel.length; i++){
+            sel[i].checked = all.checked
+        }
+    })
+
+
+
+
+    for( let i = 0; i < adds.length ; i++){
+        totals[i].innerHTML = prices[i].innerHTML
+        adds[i].addEventListener('click',function(){
+            counts[i].value++
+            reduces[i].disabled = false
+            totals[i].innerHTML = parseInt(prices[i].innerHTML)*counts[i].value
+            sumMoney()
+        })
+        reduces[i].addEventListener('click',function(){
+            counts[i].value--
+            totals[i].innerHTML = parseInt(prices[i].innerHTML)*counts[i].value
+            if(counts[i].value <= 1) {
+                reduces[i].disabled = true
+            }
+            sumMoney()
+        })
+    }
+    sumMoney()
+
+    function sumMoney(){
+        let totals =document.querySelectorAll('.total')
+        let sum = 0
+        for( let i = 0; i < totals.length; i++){
+            sum = sum + parseInt(totals[i].innerHTML)
+        }
+        total_price.innerHTML = sum
+    }
+
     function openLoginDialog() {
         document.getElementById('modal-register').style.display = 'none';
         document.getElementById('modal-login').style.display = 'block';
