@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from user.models import JdUser
+from django.contrib.auth import logout
 def index(request):
     try:
         username = request.session['username']
@@ -98,8 +99,10 @@ def index(request):
 
 def mainpage(request):
     method = request.method # 请求方法
+    username = request.session.get('username', '')
+    context = {'username': username}
     if method == "GET":
-        return render(request, "user/MainPage.html")
+        return render(request, "user/MainPage.html",context)
     
 # def header_views(request):
 #     return render(request, "user/header.html")
@@ -111,21 +114,22 @@ def login_user(request):
         password = request.POST.get('password')
         uname = list(JdUser.objects.values_list('uname', flat=True))
         upwd = list(JdUser.objects.values_list('upwd', flat=True))
-        user = None
+        temp = False
 
         print(username, password)
         print(uname,upwd)
         if username in uname:
             index = uname.index(username)
             if password == upwd[index]:
-                user=True
-                print("true")
-
-        if user is not None:
-            # login(request, user)
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+                user = authenticate(request, username=username, password=password)
+                temp = True
+                if temp is True:
+                    print("true")
+                    # login(request, user)
+                    request.session['username'] = username  # 将用户名存储在 session 中
+                    return JsonResponse({'success': True})
+                
+        return JsonResponse({'success': False, 'error': 'Invalid credentials'})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
@@ -146,3 +150,12 @@ def register_user(request):
 
 
         return JsonResponse({'success': True})
+    
+
+def faq_page(request):
+    # 如果需要，可以在这里添加 F.A.Q 页面的数据获取逻辑
+    username = request.session.get('username', '')
+    # 将登录信息传递到 faq.html 的上下文中
+    context = {'username': username}
+    return render(request, 'user/FAQ.html',context)
+

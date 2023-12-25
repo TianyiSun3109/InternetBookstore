@@ -14,15 +14,23 @@
                 <img src="../../static/img/images/star.jpg">
                 <a href="#">收藏书店</a>
                 <div class="rt">
-                    <ul>
-                        <li><span id='welcome' >您好，欢迎来到网上书店！</span>
+                    <ul>  
+                        <li>
+                            {% if username %}
+                            <span id='welcome'>您好，{{ username }}！欢迎来到网上书店！</span>
+                            <a onclick="logoutUser()" id="logoutre">[退出登录]</a>
+                            <a href="#" id="putDn" data-modal="modal-login"></a>
+                            <a href="#" id="registerLink" data-modal="modal-register"></a></li>
+                            {% else %}
+                            <span id='welcome' >您好，欢迎来到网上书店！</span>
                             <a href="#" id="putDn" data-modal="modal-login">[登录]</a>
                             <a href="#" id="registerLink" data-modal="modal-register">[免费注册]</a></li>
+                            {% endif %}
                         <li><b></b><a href="#">我的订单</a></li>
                         <li class="vip"><b></b><a href="#">会员俱乐部</a></li>
                         <!-- <li class="dakehu"><b></b><a href="#" >企业频道</a></li>  -->
                         <li class="app_jd"><b></b><a href="#">手机书店</a></li>
-                        <li class="service"><b></b><a>F.A.Q</a></li>
+                        <li class="service"><b></b><a href="{% url 'faq_page' %}">F.A.Q</a></li>
                         <li><b></b><a>网站导航</a></li>
                     </ul>
                 </div>
@@ -174,11 +182,17 @@
             var welcomeElement = document.getElementById("welcome");
             var loginLinkElement = document.getElementById("putDn");
             var registerLinkElement = document.getElementById("registerLink");
-
+            var logoutLinkElement = document.getElementById("logoutre");
             // 还原欢迎信息和登录、注册链接内容
             welcomeElement.innerHTML = '您好，欢迎来到网上书店！';
             loginLinkElement.innerHTML = '[登录]';
             registerLinkElement.innerHTML = '[免费注册]';
+            // logoutLinkElement='';
+            // 移除退出登录链接
+        if (logoutLinkElement) {
+            logoutLinkElement.parentNode.removeChild(logoutLinkElement);
+        }
+
             closeModal('modal-register');
         }
 

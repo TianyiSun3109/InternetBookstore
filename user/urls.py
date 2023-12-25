@@ -5,9 +5,10 @@ urlpatterns = [
     path('index/', views.index),
     # path('login/', views.login),
     # path('register/', views.register),
-    path('MainPage/', views.mainpage),
+    path('MainPage/', views.mainpage,name='mainpage'),
     # path('header/',views.header_views,name = 'header'),
     path('login_user/',views.login_user,name='login_user'),
     path('register_user/',views.register_user,name='register_user'),
+    path('faq/', views.faq_page, name='faq_page'),
     # path('MainPage',views.register)
 ]

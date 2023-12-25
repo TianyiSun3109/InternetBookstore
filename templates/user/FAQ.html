@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网上书店－F.A.Q</title>
+            <link rel="icon" href="../../static/img/favicon.ico">
+            <link rel="stylesheet" href="../../static/css/jd.css">
+            <link rel="stylesheet" href="../../static/css/product.css">
+
+</head>
+
+    <body>
+        <header id="top">
+            <div id="top_box">
+                <img src="../../static/img/images/star.jpg">
+                <a href="#">收藏书店</a>
+                <div class="rt">
+                    <ul>
+                        <li>{% if username %}
+                        <span id='welcome'>欢迎，{{ username }}！这里是 F.A.Q 页面。</span>
+                        {% else %}
+                        <span id='welcome'>欢迎来到 F.A.Q 页面。</span>
+                        {% endif %}
+                            <!-- <a href="#" id="putDn" data-modal="modal-login">[登录]</a>
+                            <a href="#" id="registerLink" data-modal="modal-register">[免费注册]</a> -->
+                        </li>
+                        <li><b></b><a href="#">我的订单</a></li>
+                        <li class="vip"><b></b><a href="#">会员俱乐部</a></li>
+                        <!-- <li class="dakehu"><b></b><a href="#" >企业频道</a></li>  -->
+                        <li class="app_jd"><b></b><a href="#">手机书店</a></li>
+                        <li class="service"><b></b><a href="{% url 'mainpage' %}">返回主页</a></li>
+                        <li><b></b><a>网站导航</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+    
+        <!-- LOGO和搜索框! -->
+        <div id="top_main">
+            <a href="#" class="lf">
+                <img src="../../static/img/images/logo-seu.png" height="60" alt="LOGO" />
+            </a>
+            <div id="search_box" class="lf">
+                <div class="search">
+                    <input id="txtSearch" type="text" class="text" />
+                    <input class="button" name="" type="button" value="搜索" />
+                </div>
+                <div class="hot_words">
+                    <span>热门搜索：</span>
+                    <a href="#">杀死一只知更鸟</a>
+                    <a href="#">活着</a>
+                    <a href="#">工科数学分析</a>
+                    <a href="#">线性代数</a>
+                    <a href="#">操作系统</a>
+                    <a href="#">计算机组成原理</a>
+                    <a href="#">数据库原理</a>
+                </div>
+            </div>
+            <div id="my_jd" class="lf">
+                我的书店<b></b>
+            </div>
+            <div id="settle_up" class="lf">
+                去购物车结算<b></b>
+            </div>
+        </div>
+    
+        <!-- 主导航 -->
+        <nav id="nav">
+            <div id="category">
+                <a href="#">全部书籍分类</a>
+                <b></b>
+            </div>
+            <ul id="nav_items">
+                <li><a href="#">诗歌</a></li>
+                <li><a href="#">小说</a></li>
+                <li><a href="#">传记</a></li>
+                <li><a href="#">访谈</a></li>
+                <li><a href="#">儿童图书</a></li>
+                <li><a href="#">党政书籍</a></li>
+                <li><a href="#">教辅</a></li>
+            </ul>
+        </nav>
+    
+        <div id="header-container"></div>
+        <div id="main">
+            <div class="affix">
+                <h4>欢迎！</h4>
+            </div>
+            <div class="container productlist">
+                <!-- 排序部分 -->
+                <header>
+                    <ul>
+                        <li><a href="#" class="curr" >F.A.Q</a></li>
+                        <!-- <li><a href="">价格</a></li>
+                            <li><a href="">评论数</a></li>
+                            <li><a href="">上架时间</a></li> -->
+                    </ul>
+                    <!-- <ol>
+                            <li><a href="">&lt;</a></li>
+                            <li><a href="">&gt;</a></li>
+                        </ol> -->
+                </header>
+                <!-- 产品列表 -->
+                    <ul>
+                        <li style="font-family: 'SimHei'; color: #570808; font-size: 20px;line-height: 1.5;">
+                            <p style="font-weight: bolder;">
+                                关于书店：
+                            <p>
+                                开发者：孙天翼 严文杰 王俊 
+                            <p>
+                                指导老师：朱夏
+                            </p>
+                        </li>
+                    </ul>
+                    <ol class="pager">
+    
+                        <!-- <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li> -->
+    
+                    </ol>
+
+            </div>
+        </div>
+        <!-- <div id="footer"></div> -->
+    
+        <!-- 模态登录对话框 -->
+        <div class="modal" id="modal-login">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h4>用户登录</h4>
+                    <p class="alert">
+                        请在此处输入您的注册信息。
+                    </p>
+                    <form id="login-form" action="/user/login_user/" method="post">
+                        {% csrf_token %}
+                        <input type="text" placeholder="请输入登录用户名" name="uname">
+                        <input type="password" placeholder="请输入登录密码" name="upwd">
+                        <input type="button" value="提交登录信息" id="bt-login" onclick="loginUser();">
+                        <input type="button" value="免费注册" id="mp-register" onclick="openRegisterDialog();">
+                        <input type="button" name="close" value="关闭" onclick="closeModal('modal-login');" />
+                        <div id="Result"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <!-- 注册对话框 -->
+        <div class="modal" id="modal-register">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h4>免费注册</h4>
+                    <form id="register-form">
+                        <input type="text" placeholder="请输入注册用户名" name="uname">
+                        <input type="password" placeholder="请输入注册密码" name="upwd">
+                        <input type="button" value="提交注册信息" id="bt-register" onclick="RegisterUser();">
+                        <input type="button" name="close" value="关闭" onclick="closeModal('modal-register');" />
+                    </form>
+                    <div id="Result_2"></div>
+                </div>
+            </div>
+        </div>
+    
+        <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+        <!-- <script src="../../static/js/jquery-1.11.3.js"></script> -->
+        <script src="../../static/js/jd.js"></script>
+    
+        <script>
+            function openLoginDialog() {
+                document.getElementById('modal-register').style.display = 'none';
+                document.getElementById('modal-login').style.display = 'block';
+            };
+
+            function openRegisterDialog() {
+                closeModal('modal-login');
+                document.getElementById('modal-register').style.display = 'block';
+            };
+
+            function closeModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            };
+
+            // 退出登录
+            function logoutUser() {
+                var welcomeElement = document.getElementById("welcome");
+                var loginLinkElement = document.getElementById("putDn");
+                var registerLinkElement = document.getElementById("registerLink");
+
+                // 还原欢迎信息和登录、注册链接内容
+                welcomeElement.innerHTML = '您好，欢迎来到网上书店！';
+                loginLinkElement.innerHTML = '[登录]';
+                registerLinkElement.innerHTML = '[免费注册]';
+                closeModal('modal-register');
+            }
+
+
+            // 登录    
+            function loginUser() {
+                var username = document.getElementById("login-form").elements["uname"].value;
+                var password = document.getElementById("login-form").elements["upwd"].value;
+
+                // 使用AJAX发送登录请求
+                $.ajax({
+                    type: "POST",
+                    url: "/user/login_user/", // 后端服务端点
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function (result) {
+                        // // 处理登录成功的情况
+                        // if (result.success) {
+                        //     // // 更新页面或执行其他操作
+                        //     // document.getElementById("Result").innerHTML = '欢迎，' + username + '!';
+                        //     // closeModal('modal-login');
+                        // 处理登录成功的情况
+                        if (result.success) {
+                            // 更新页面或执行其他操作
+                            var welcomeElement = document.getElementById("welcome");
+                            var loginLinkElement = document.getElementById("putDn");
+                            var registerLinkElement = document.getElementById("registerLink");
+
+                            // // 更新DOM元素内容
+                            // welcomeElement.innerHTML = '您好，' + username + '!';
+                            // loginLinkElement.innerHTML = ''; // 清空登录链接内容
+                            // registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                            // 或者，如果需要保留链接并添加其他内容，可以使用以下方式
+                            welcomeElement.innerHTML = '你好，' + username + '![退出登录]';
+                            loginLinkElement.innerHTML = '';
+                            registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                            // 找到[退出登录]链接
+                            var logoutLinkElement = document.getElementById("welcome");
+
+                            // 给[退出登录]链接添加点击事件
+                            logoutLinkElement.addEventListener("click", function (event) {
+                                // 阻止默认的链接跳转行为
+                                event.preventDefault();
+                                // 执行退出登录逻辑，例如调用logoutUser函数
+                                logoutUser();
+
+                            });
+                            closeModal('modal-login');
+                        } else {
+                            // 处理登录失败的情况
+                            document.getElementById("Result").innerHTML = '登录失败';
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // 处理AJAX请求错误
+                        console.error('AJAX请求失败: ' + status + ', ' + error);
+                    }
+                });
+            };
+
+            function RegisterUser() {
+                var username = document.getElementById("register-form").elements["uname"].value;
+                var password = document.getElementById("register-form").elements["upwd"].value;
+
+                // 使用AJAX发送登录请求
+                $.ajax({
+                    type: "POST",
+                    url: "/user/register_user/", // 后端服务端点
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function (result) {
+                        // 处理注册成功的情况
+                        if (result.success) {
+                            // 更新页面或执行其他操作
+                            var welcomeElement = document.getElementById("welcome");
+                            var loginLinkElement = document.getElementById("putDn");
+                            var registerLinkElement = document.getElementById("registerLink");
+
+                            // // 更新DOM元素内容
+                            // welcomeElement.innerHTML = '您好，' + username + '!';
+                            // loginLinkElement.innerHTML = ''; // 清空登录链接内容
+                            // registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                            // 或者，如果需要保留链接并添加其他内容，可以使用以下方式
+                            welcomeElement.innerHTML = '你好，' + username + '![退出登录]';
+                            loginLinkElement.innerHTML = '';
+                            registerLinkElement.innerHTML = ''; // 清空注册链接内容
+
+                            // 找到[退出登录]链接
+                            var logoutLinkElement = document.getElementById("welcome");
+
+                            // 给[退出登录]链接添加点击事件
+                            logoutLinkElement.addEventListener("click", function (event) {
+                                // 阻止默认的链接跳转行为
+                                event.preventDefault();
+                                // 执行退出登录逻辑，例如调用logoutUser函数
+                                logoutUser();
+
+                            });
+                            document.getElementById("Result_2").innerHTML = '注册成功！！！';
+                            // closeModal('modal-login');
+                        } else {
+                            // 处理注册失败的情况
+                            document.getElementById("Result_2").innerHTML = '注册失败，用户名重复！';
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // 处理AJAX请求错误
+                        console.error('AJAX请求失败: ' + status + ', ' + error);
+                    }
+                });
+            };
+
+        </script>
+    
+    </body>
+    
+    </html>
