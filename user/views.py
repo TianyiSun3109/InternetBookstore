@@ -159,3 +159,10 @@ def faq_page(request):
     context = {'username': username}
     return render(request, 'user/FAQ.html',context)
 
+def shopping_car(request):
+    # 如果需要，可以在这里添加 F.A.Q 页面的数据获取逻辑
+    username = request.session.get('username', '')
+    # 将登录信息传递到 faq.html 的上下文中
+    context = {'username': username}
+    return render(request, 'user/shoppingcart.html',context)
+
