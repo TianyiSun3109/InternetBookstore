@@ -64,7 +64,7 @@
             我的书店<b></b>
         </div>
         <div id="settle_up" class="lf">
-            去购物车结算<b></b>
+            <a href="{% url 'mainpage' %}">回到主页</a><b></b>
         </div>
     </div>
 
@@ -245,8 +245,9 @@
 
     all.addEventListener('click',function(){
         for(let i = 0; i < sel.length; i++){
-            sel[i].checked = all.checked
+            sel[i].checked = all.checked;
         }
+        sumMoney();
     })
 
 
@@ -269,13 +270,22 @@
             sumMoney()
         })
     }
-    sumMoney()
+    // sumMoney()  
+
+    // 监听所有商品复选框的点击事件
+    for (let i = 0; i < sel.length; i++) {
+        sel[i].addEventListener('click', function () {
+            sumMoney();
+        });
+    }
 
     function sumMoney(){
         let totals =document.querySelectorAll('.total')
         let sum = 0
         for( let i = 0; i < totals.length; i++){
-            sum = sum + parseInt(totals[i].innerHTML)
+                if (sel[i].checked) {
+            sum = sum + parseInt(totals[i].innerHTML);
+        }
         }
         total_price.innerHTML = sum
     }

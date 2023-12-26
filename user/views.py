@@ -101,8 +101,8 @@ def mainpage(request):
     method = request.method # 请求方法
     username = request.session.get('username', '')
     context = {'username': username}
-    if method == "GET":
-        return render(request, "user/MainPage.html",context)
+    # if method == "GET":
+    return render(request, "user/MainPage.html",context)
     
 # def header_views(request):
 #     return render(request, "user/header.html")
