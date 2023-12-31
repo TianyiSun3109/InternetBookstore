@@ -11,5 +11,6 @@ urlpatterns = [
     path('register_user/',views.register_user,name='register_user'),
     path('faq/', views.faq_page, name='faq_page'),
     path('shoppingcar/', views.shopping_car, name='shopping_car'),
+    path('product/', views.product_page, name='product_page'),
     # path('MainPage',views.register)
 ]
