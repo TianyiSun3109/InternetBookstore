@@ -5,6 +5,7 @@ from django.db import models
 class JdBook(models.Model):
     id = models.AutoField(primary_key=True)
     year = models.IntegerField(blank=True, null=True)
+    picture=models.CharField(max_length=255,blank=True,null=True)
     rank = models.IntegerField(db_column='Rank', blank=True, null=True)  # Field name made lowercase.
     name = models.CharField(max_length=255, blank=True, null=True)
     pinglun = models.CharField(max_length=63, blank=True, null=True)

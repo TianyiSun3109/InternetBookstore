@@ -219,7 +219,7 @@
         <div id="content" style="display: flex; flex-wrap: wrap;">
             {% for book in results %}
             <div class="a1">
-                <img class="big" src="../../static/img/images/test1.jpg">
+                <img class="big" src="{{book.picture}}">
             </div>
             <div class="a2">
                 <h2>{{ book.name }}</h2>
