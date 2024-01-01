@@ -14,6 +14,7 @@ def get_dangdang_info(i,url):
     for data in datas:
 
         Ranks = data.xpath('ul/li/div[1]/text()')
+        pics = data.xpath('ul/li/div[2]/a/img/@src')
         names = data.xpath('ul/li/div[3]/a/text()')
         pingluns = data.xpath('ul/li/div[4]/a/text()')
         authors = data.xpath('ul/li/div[5]/a/text()')
@@ -22,11 +23,12 @@ def get_dangdang_info(i,url):
         yuanjias = data.xpath('ul/li/div[7]/p[1]/span[2]/text()')
         discounts = data.xpath('ul/li/div[7]/p[1]/span[3]/text()')
     # urls = data.xpath('ul/li/div[3]/a/@href')
-    for Rank,name,pinglun,author,chuban,jiage,yuanjia,discount in zip(Ranks,names,pingluns,authors,chubans,jiages,yuanjias,discounts):
+    for Rank,pic,name,pinglun,author,chuban,jiage,yuanjia,discount in zip(Ranks,pics,names,pingluns,authors,chubans,jiages,yuanjias,discounts):
     # print(Rank,name,pinglun,author,chuban,jiage,yuanjia,discount)
             dflist = []
             dflist.append(i)
             dflist.append(Rank)
+            dflist.append(pic)
             if("（" in name):
                 name = name[:name.index("（")]
             dflist.append(name.encode('utf-8').decode('utf-8'))
@@ -38,7 +40,7 @@ def get_dangdang_info(i,url):
             dflist.append(discount.encode('utf-8').decode('utf-8'))
             data_total.append(dflist)
 def list_save():
-    head = ['year', 'Rank', 'name', 'pinglun', 'author', 'chuban', 'jiage', 'yuanjia', 'discount']
+    head = ['year', 'Rank', 'Picture','name', 'pinglun', 'author', 'chuban', 'jiage', 'yuanjia', 'discount']
 
     # 创建 CSV 文件并写入表头
     csv_file_path = 'book.csv'
@@ -66,7 +68,7 @@ def list_save():
 
 if __name__=='__main__':
     for i in range(2018,2022):
-        for j in range(1,26):
+        for j in range(1,10):
             url = 'http://bang.dangdang.com/books/bestsellers/01.00.00.00.00.00-year-{i}-0-1-{j}'.format(i=i,j=j)
             get_dangdang_info(i,url)
     # print(data_total)
