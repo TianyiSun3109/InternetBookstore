@@ -12,5 +12,7 @@ urlpatterns = [
     path('faq/', views.faq_page, name='faq_page'),
     path('shoppingcar/', views.shopping_car, name='shopping_car'),
     path('product/', views.product_page, name='product_page'),
+    path('search/', views.search_books, name='search_books'),
+
     # path('MainPage',views.register)
 ]

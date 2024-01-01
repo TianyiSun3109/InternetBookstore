@@ -111,7 +111,7 @@
                         <li class="vip"><b></b><a href="#">会员俱乐部</a></li>
                         <!-- <li class="dakehu"><b></b><a href="#" >企业频道</a></li>  -->
                         <li class="app_jd"><b></b><a href="#">手机书店</a></li>
-                        <li class="service"><b></b><a href="{% url 'faq_page' %}">F.A.Q</a></li>
+                        <li class="service"><b></b><a href="{% url 'faq_page' %}">F.A.Q & Help</a></li>
                         <li><b></b><a>网站导航</a></li>
                     </ul>
                 </div>
@@ -126,7 +126,9 @@
             <div id="search_box" class="lf">
                 <div class="search">
                     <input id="txtSearch" type="text" class="text" />
-                    <input class="button" name="" type="button" value="搜索" />
+                    <a href="{% url 'search_books' %}">
+                    <input class="button" name="" type="button" value="搜索"  />
+                    </a>
                 </div>
                 <div class="hot_words">
                     <span>热门搜索：</span>
