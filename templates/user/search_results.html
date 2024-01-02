@@ -191,7 +191,7 @@
             </div>
         </div>
         <div id="my_jd" class="lf">
-            我的书店<b></b>
+            历史订单<b></b>
         </div>
         <div id="settle_up" class="lf">
             <a href="{% url 'shopping_car' %}">去购物车结算</a><b></b>
@@ -253,7 +253,7 @@
                     </div> -->
                     <div class="a25">
                         <a href="#"><button class="add-to-cart" data-product-id="{{ book.id }}">加入购物车</button></a>
-                        <a href="#"><button class="a25color2">收藏</button></a>
+                        <a href="{% url 'product_page' book_id=book.id %}" target="_blank">详情</a>
                     </div>
                 </div>
             </div>
@@ -344,6 +344,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        var username = "{{ username }}";
         var bookName = document.querySelector('.a2 h2').textContent;
         // 获取价格
         var bookPrice = document.querySelector('.a2 .prices').textContent;
@@ -352,6 +353,7 @@
         var bookPicture = document.querySelector('.a1 .big').getAttribute('src');
 
         var addToCartButtons = document.querySelectorAll('.add-to-cart');
+
 
         addToCartButtons.forEach(function (button) {
             button.addEventListener('click', function (event) {
@@ -365,7 +367,9 @@
                     url: '../add_to_cart/',  // 你的添加到购物车的URL
                     data: { bookName: bookName ,
                             bookPrice:bookPrice,
-                        bookPicture:bookPicture},
+                            bookPicture:bookPicture,
+                            username: username
+                            },
                     success: function (response) {
                         if (response.success) {
                             alert('商品已添加到购物车！');

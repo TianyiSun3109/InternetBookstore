@@ -61,7 +61,7 @@
             </div>
         </div>
         <div id="my_jd" class="lf">
-            我的书店<b></b>
+            <a href="{% url 'history' %}">历史订单</a><b></b>
         </div>
         <div id="settle_up" class="lf">
             <a href="{% url 'mainpage' %}">回到主页</a><b></b>
@@ -142,7 +142,7 @@
 
                 <div>
                     总价：<span><i id="total_price">0</i></span>
-                    <button>去结算</button>
+                    <button class="jiesuan">去结算</button>
                 </div>
             </footer>
             <div id="shine"></div>
@@ -492,6 +492,35 @@
             });
         });
     });
+</script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var jiesuanButton = document.querySelector('.jiesuan');
+            
+            console.log(jiesuanButton);
+
+            jiesuanButton.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Send AJAX request to handle checkout
+                $.ajax({
+                    type: 'POST',
+                    url: '../checkout/',  // Replace with your Django view URL
+                    data: {},
+                    success: function (response) {
+                        if (response.success) {
+                            alert('结算成功！');
+                        } else {
+                            alert('结算失败！');
+                        }
+                    },
+                    error: function () {
+                        alert('结算失败，发生了错误！');
+                    }
+                });
+            });
+        });
 </script>
 
     </body>

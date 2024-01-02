@@ -72,7 +72,18 @@ class Shop(models.Model):
     picture=models.CharField(max_length=255,blank=True,null=True)
     bookname = models.CharField(max_length=100,unique=False)
     price = models.CharField(max_length=63, blank=True, null=True)
-    num = models.PositiveSmallIntegerField()
+    num = models.PositiveSmallIntegerField()    
+    uname = models.CharField(max_length=32, blank=True, null=True)
 
     class Meta:
         db_table = "shopping_car"
+
+class history(models.Model):
+    picture=models.CharField(max_length=255,blank=True,null=True)
+    bookname = models.CharField(max_length=100,unique=False)
+    price = models.CharField(max_length=63, blank=True, null=True)
+    num = models.PositiveSmallIntegerField()    
+    uname = models.CharField(max_length=32, blank=True, null=True)
+
+    class Meta:
+        db_table = "history"

@@ -9,16 +9,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from user.models import JdUser
 from django.contrib.auth import logout
-from .models import JdBook,Shop
+from .models import JdBook,Shop,history
 
-def index(request):
-    try:
-        username = request.session['username']
-    except KeyError:
-        username = None
-    return render(request, "user/index.html", context={
-        "username": username
-    })
+# def index(request):
+#     try:
+#         username = request.session['username']
+#     except KeyError:
+#         username = None
+#     return render(request, "user/index.html", context={
+#         "username": username
+#     })
 
 
 def mainpage(request):
@@ -94,25 +94,26 @@ def shopping_car(request):
     }
     return render(request, 'user/shoppingcart.html',context)
 
-def product_page(request):
-    # 如果需要，可以在这里添加 F.A.Q 页面的数据获取逻辑
+def product_page(request,book_id):
     username = request.session.get('username', '')
+    print(book_id)
+    books = JdBook.objects.filter(id = book_id);
     # 将登录信息传递到 faq.html 的上下文中
-    context = {'username': username}
+    context = {'username': username, 'books': books}
     return render(request, 'user/productlist.html',context)
 
 
         
 
 def search_books(request):
-    # username = request.session.get('username', '')
+    username = request.session.get('username', '')
     # context = {'username': username}
     if 'q' in request.GET:
         query = request.GET['q']
         results = JdBook.objects.filter(name__icontains=query)
     else:
         results = None
-    return render(request, 'user/search_results.html', {'results': results})
+    return render(request, 'user/search_results.html', {'results': results,'username':username})
 
 
 @csrf_exempt
@@ -120,9 +121,10 @@ def add_to_cart(request):
     bookname = request.POST.get('bookName')
     price = request.POST.get('bookPrice')
     picture = request.POST.get('bookPicture')
+    username = request.POST.get('username')
 
     current_count = Shop.objects.count()
-    book = Shop.objects.create(id = current_count + 1,bookname=bookname, price=price,picture=picture,num=1)
+    book = Shop.objects.create(id = current_count + 1,bookname=bookname, price=price,picture=picture,num=1,uname=username)
 
     return JsonResponse({'success': True})
 
@@ -156,3 +158,40 @@ def delete_book(request):
         return JsonResponse({'success': True})
     except Shop.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Book not found'})
+    
+@csrf_exempt 
+def histroy(request):
+    username = request.session.get('username', '')
+    # context = {'username': username}
+    # if 'q' in request.GET:
+    #     query = request.GET['q']
+    #     results = JdBook.objects.filter(name__icontains=query)
+    # else:
+    #     results = None
+    # query = request.GET[username]
+    results = history.objects.filter(uname=username)
+    return render(request, 'user/history.html', {'results': results,'username':username})
+
+@csrf_exempt 
+def checkout(request):
+    try:
+        # Assuming 'username' is available in your session
+        username = request.session.get('username')
+
+        # Move items from shopping cart to history
+        shop_records =Shop.objects.filter(uname=username)
+
+        # 复制记录到history表
+        id =1
+        for shop_record in shop_records:
+            history.objects.create(uname=shop_record.uname,picture=shop_record.picture, bookname=shop_record.bookname,
+                                    price=shop_record.price,num=shop_record.num,id=id
+                                # Add other fields as needed
+                                )
+            id = id+1
+        # Clear shopping cart
+        Shop.objects.filter(uname=username).delete()
+
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})

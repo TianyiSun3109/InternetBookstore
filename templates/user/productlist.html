@@ -189,39 +189,33 @@
 
     <div id="all">
 			<div style="clear: both;"></div>
+            {%for book in books%}
 			<div id="content">
 					<div class="a1">
-						<img class="big" src="../../static/img/images/test1.jpg">
+                    <img class="big" src="{{book.picture}}">
 					</div>
 				<div class="a2">
-					<h2>慢一点也没关系</h2>
+                    <h2>{{book.name}}</h2>
 					<div class="a21">
 						<div class="a211">
 							<span class="color">售价</span>
-							<span class="prices">￥59</span>
-							<span class="yis">已售0件</span>
+                                <h2>{{book.jiage}}</h2>
 						</div>
 						<div class="a22">
 							<p></p>
 							<span class="color">作者</span>
-							<span class="neir">格日勒其木格·黑鹤 著，九儿 绘</span>
+                            <span class="neir">{{book.author}}</span>
 							<p></p>
-							<span class="color">出版社</span>
-							<span class="neir">贵州人民出版社</span>
+                            <span class="color">出版时间</span>
+                            <span class="neir">{{book.chuban}}</span>
 						</div>
 						<div class="a23">
 							<p></p>
-							<span class="color">配送说明</span>
-							<p>北京、上海、广州、深圳、天津、重庆、南京、长沙</p>
-							<span class="color">配送至</span>
-							<p>郑州</p>
-
-						</div>
-						<div class="a24">
-							<span class="color">购买本数</span>
-							<p></p>
-							
-						</div>
+                            <span class="color">评论数</span>
+                            <p>{{book.pinglun}}</p>
+                        </div>
+                    </div>
+				
 						<div class="a25">
 							<a href="#"><button class="a25color1">加入购物车</button></a>
 							<a href="#"><button class="a25color2">收藏</button></a>
@@ -229,6 +223,7 @@
 					</div>
 				</div>
 			</div>
+            {% endfor %}
 			<div style="clear: both;"></div>
 		</div>
 

@@ -125,9 +125,9 @@
             </a>
             <div id="search_box" class="lf">
                 <div class="search">
-                    <input id="txtSearch" type="text" class="text" />
+                    <input id="txtSearch" type="text" class="text" value="点击右侧按钮进入搜索界面"/>
                     <a href="{% url 'search_books' %}">
-                    <input class="button" name="" type="button" value="搜索"  />
+                    <input class="button" name="" type="button" value="进入搜索"  />
                     </a>
                 </div>
                 <div class="hot_words">
@@ -142,7 +142,7 @@
                 </div>
             </div>
             <div id="my_jd" class="lf">
-                我的书店<b></b>
+                历史订单<b></b>
             </div>
             <div id="settle_up" class="lf" >
                 <a href="{% url 'shopping_car' %}">去购物车结算</a><b></b>
@@ -190,12 +190,13 @@
                     {% for book in goods%}
                     <ul>
                         <li>
-                            <a href="{% url 'product_page' %}" target="_blank"><img src="{{book.picture}}"></a>
-                            <h1 class="name"><a href="{% url 'product_page' %}" target="_blank" title="慢一点也没关系">{{ book.name }}</a></h1>
-                            <p class="publisher_info"><a title="格日勒其木格·黑鹤 著，九儿 绘" target="_blank">格日勒其木格·黑鹤</a> 著，<a href="###" title="格日勒其木格·黑鹤 著，九儿 绘" target="_blank">九儿</a> 绘</p>
-                            <p class="publisher_info"><a target="_blank">贵州人民出版社</a></p>
+                            <a href="{% url 'product_page' book_id=book.id %}" target="_blank"><img src="{{book.picture}}"></a>
+                            <h1 class="name"><a href="{% url 'product_page' book_id=book.id %}" target="_blank" title="慢一点也没关系">{{ book.name }}</a>
+                            </h1>
+                            <p class="publisher_info"><a>作者：</a><a> {{book.author}}</a></p>
+                            <p class="publisher_info"><a>出版时间：</a><a>{{book.chuban}}</a></p>
                             <div class="price">
-                                <p><span class="price_n">售价：¥59.00</span></p>
+                                <p><span class="price_n">售价：</span><span>{{book.yuanjia}}</span></p>
                                 <div class="buy_button">
                                     <a name="" href="###" class="addcart">加入购物车</a>
                                     <a id="addto_favorlist_29304972" name="" href="###" class="collect">收藏</a>
