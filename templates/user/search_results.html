@@ -218,6 +218,7 @@
         <div style="clear: both;"></div>
         <div id="content" style="display: flex; flex-wrap: wrap;">
             {% for book in results %}
+            <form id="book_info">
             <div class="a1">
                 <img class="big" src="{{book.picture}}">
             </div>
@@ -232,7 +233,7 @@
                     <div class="a22">
                         <p></p>
                         <span class="color">作者</span>
-                        <span class="neir">{{ book.author }}</span>
+                        <span class="neir" name="authorname">{{ book.author }}</span>
                         <p></p>
                         <span class="color">出版时间</span>
                         <span class="neir">{{ book.chuban }}</span>
@@ -251,11 +252,12 @@
 
                     </div> -->
                     <div class="a25">
-                        <a href="#"><button class="a25color1">加入购物车</button></a>
+                        <a href="#"><button class="add-to-cart" data-product-id="{{ book.id }}">加入购物车</button></a>
                         <a href="#"><button class="a25color2">收藏</button></a>
                     </div>
                 </div>
             </div>
+            </form>
             {% endfor %}
         </div>
         <div style="clear: both;"></div>
@@ -338,6 +340,48 @@
     <script src="../../static/js/jquery-1.11.3.js"></script>
     <!-- <script src="../../js/jd.js"></script> -->
     <script src="../../static/js/jd.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var bookName = document.querySelector('.a2 h2').textContent;
+        // 获取价格
+        var bookPrice = document.querySelector('.a2 .prices').textContent;
+
+        //获取图片
+        var bookPicture = document.querySelector('.a1 .big').getAttribute('src');
+
+        var addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+        addToCartButtons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                // var productId = button.getAttribute('data-product-id');
+                
+
+                // 发送AJAX请求将商品添加到购物车
+                $.ajax({
+                    type: 'POST',
+                    url: '../add_to_cart/',  // 你的添加到购物车的URL
+                    data: { bookName: bookName ,
+                            bookPrice:bookPrice,
+                        bookPicture:bookPicture},
+                    success: function (response) {
+                        if (response.success) {
+                            alert('商品已添加到购物车！');
+                        } else {
+                            alert('添加到购物车失败！');
+                        }
+                    },
+                    error: function () {
+                        alert('添加到购物车失败，发生了错误！');
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 </body>
 
 </html>

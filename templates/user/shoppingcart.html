@@ -107,63 +107,22 @@
                 </tr>
                 </thead>
                 <tbody>
-								
+                {% for book in results %}
                 <tr>
                     <td>
                         <input type="checkbox" class="sel"/>
-                        <input type="hidden" value="1" />
-                        <div><img src="../../static/img/images/phone/phone_01.jpg" alt=""/></div>
+                        <input type="hidden" value= "{{book.id}}" />
+                        <div><img src="{{book.picture}}" alt=""/></div>
                     </td>
-                    <td><a href="">小米 Note</a></td>
-                    <td class="price">1199.00</td>
+                    <td><a href="">{{book.bookname}}</a></td>
+                    <td class="price" value="{{book.price}}"><a>{{book.price}}</a></td>
                     <td>
-                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
+                        <button class="reduce" >-</button><input type="text" class="count" value="{{book.num}}" data-book-id="{{ book.id }}"/><button class="add">+</button>
                     </td>
-                    <td class="total"><span>1199.00</span></td>
-                    <td><a href="">删除</a></td>
+                    <td class="total"><span>{{book.price}}</span></td>
+                    <td><a href="" class="delete-book" data-book-id="{{ book.id }}">删除</a></td>
                 </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="sel"/>
-                        <input type="hidden" value="2" />
-                        <div><img src="../../static/img/images/phone/phone_02.jpg" alt=""/></div>
-                    </td>
-                    <td><a href="">PPO R9 4GB+64GB内存版</a></td>
-                    <td class="price">2499.00</td>
-                    <td>
-                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
-                    </td>
-                    <td class="total"><span>2499.00</span></td>
-                    <td><a href="">删除</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="sel"/>
-                        <input type="hidden" value="3" />
-                        <div><img src="../../static/img/images/phone/phone_03.jpg" alt=""/></div>
-                    </td>
-                    <td><a href="">PPO R9 4GB+64GB内存版 玫瑰金</a></td>
-                    <td class="price">2499.00</td>
-                    <td>
-                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
-                    </td>
-                    <td class="total"><span>2499.00</span></td>
-                    <td><a href="">删除</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="sel"/>
-                        <input type="hidden" value="4" />
-                        <div><img src="../../static/img/images/phone/phone_04.jpg" alt=""/></div>
-                    </td>
-                    <td><a href="">小米 红米 3S 高配全网通 3GB内存</a></td>
-                    <td class="price">899.00</td>
-                    <td>
-                        <button class="reduce" disabled>-</button><input type="text" class="count" value="1"/><button class="add">+</button>
-                    </td>
-                    <td class="total"><span>899.00</span></td>
-                    <td><a href="">删除</a></td>
-                </tr>
+                {% endfor %}
 								
                 </tbody>
             </table>
@@ -243,27 +202,33 @@
     let sel = document.querySelectorAll('.sel')
     let all = document.querySelector('.all')
 
+    // // 转换为浮点数
+    // prices.forEach(function (priceElement) {
+    //         let priceString = priceElement.textContent.trim(); // 获取元素文本内容并去除首尾空格
+    //         let priceFloat = parseFloat(priceString.replace(/[^\d.-]/g, '')); // 提取数字部分并转为浮点数
+    //         console.log(priceFloat); // 打印浮点数形式的价格
+    //     });
+
     all.addEventListener('click',function(){
         for(let i = 0; i < sel.length; i++){
             sel[i].checked = all.checked;
+            // console.log(prices[i]); 
         }
         sumMoney();
     })
 
-
-
-
     for( let i = 0; i < adds.length ; i++){
-        totals[i].innerHTML = prices[i].innerHTML
+        totals[i].innerHTML = parseFloat(prices[i].innerHTML.trim().replace(/[^\d.-]/g, ''));
+
         adds[i].addEventListener('click',function(){
             counts[i].value++
             reduces[i].disabled = false
-            totals[i].innerHTML = parseInt(prices[i].innerHTML)*counts[i].value
+            totals[i].innerHTML = parseFloat(prices[i].innerHTML.trim().replace(/[^\d.-]/g, '')) *counts[i].value
             sumMoney()
         })
         reduces[i].addEventListener('click',function(){
             counts[i].value--
-            totals[i].innerHTML = parseInt(prices[i].innerHTML)*counts[i].value
+            totals[i].innerHTML = parseFloat(prices[i].innerHTML.trim().replace(/[^\d.-]/g, '')) *counts[i].value
             if(counts[i].value <= 1) {
                 reduces[i].disabled = true
             }
@@ -439,6 +404,95 @@
         });
     };
 
+    
+
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var addButton = document.querySelectorAll('.add');
+        var reduceButton = document.querySelectorAll('.reduce');
+
+        function updateNum(bookId, action) {
+            var inputElement = document.querySelector(`.count[data-book-id="${bookId}"]`);
+
+            // Send AJAX request to update the 'num' field
+            $.ajax({
+                type: 'POST',
+                url: '../update_num/',  // Replace with your Django view URL
+                data: {
+                    book_id: bookId,
+                    action: action
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Update the input value
+                        inputElement.value = response.new_num;
+                    } else {
+                        alert('Failed to update num.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while updating num.');
+                }
+            });
+        }
+
+        addButton.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                var bookId = button.parentElement.querySelector('.count').getAttribute('data-book-id');
+                updateNum(bookId, 'add');
+            });
+        });
+
+        reduceButton.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                var bookId = button.parentElement.querySelector('.count').getAttribute('data-book-id');
+                updateNum(bookId, 'reduce');
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteLinks = document.querySelectorAll('.delete-book');
+
+        function deleteBook(bookId) {
+            // Send AJAX request to delete the book
+            $.ajax({
+                type: 'POST',
+                url: '../delete_book/',  // Replace with your Django view URL
+                data: {
+                    book_id: bookId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Optionally, you can remove the corresponding table row from the DOM
+                        // assuming your table row has an ID or a unique identifier
+                        // Example: document.getElementById(`book-row-${bookId}`).remove();
+
+                        // Reload the page or update the view as needed
+                        location.reload();
+                    } else {
+                        alert('Failed to delete the book.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while deleting the book.');
+                }
+            });
+        }
+
+        deleteLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                var bookId = link.getAttribute('data-book-id');
+                deleteBook(bookId);
+            });
+        });
+    });
+</script>
+
     </body>
 </html>

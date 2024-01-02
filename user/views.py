@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from user.models import JdUser
 from django.contrib.auth import logout
-from .models import JdBook
+from .models import JdBook,Shop
 
 def index(request):
     try:
@@ -85,10 +85,13 @@ def faq_page(request):
     return render(request, 'user/FAQ.html',context)
 
 def shopping_car(request):
-    # 如果需要，可以在这里添加 F.A.Q 页面的数据获取逻辑
+    results = Shop.objects.all()
     username = request.session.get('username', '')
-    # 将登录信息传递到 faq.html 的上下文中
-    context = {'username': username}
+    # 将 results 放在字典中
+    context = {
+        'results': results,
+        'username': username,
+    }
     return render(request, 'user/shoppingcart.html',context)
 
 def product_page(request):
@@ -110,3 +113,46 @@ def search_books(request):
     else:
         results = None
     return render(request, 'user/search_results.html', {'results': results})
+
+
+@csrf_exempt
+def add_to_cart(request):
+    bookname = request.POST.get('bookName')
+    price = request.POST.get('bookPrice')
+    picture = request.POST.get('bookPicture')
+
+    current_count = Shop.objects.count()
+    book = Shop.objects.create(id = current_count + 1,bookname=bookname, price=price,picture=picture,num=1)
+
+    return JsonResponse({'success': True})
+
+@csrf_exempt
+def update_num(request):
+    book_id = request.POST.get('book_id')
+    action = request.POST.get('action')
+
+    try:
+        book = Shop.objects.get(id=book_id)
+
+        if action == 'add':
+            book.num += 1
+        elif action == 'reduce' and book.num > 0:
+            book.num -= 1
+
+        book.save()
+
+        return JsonResponse({'success': True, 'new_num': book.num})
+    except Shop.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Book not found'})
+
+@csrf_exempt    
+def delete_book(request):
+    book_id = request.POST.get('book_id')
+
+    try:
+        book = Shop.objects.get(id=book_id)
+        book.delete()
+
+        return JsonResponse({'success': True})
+    except Shop.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Book not found'})

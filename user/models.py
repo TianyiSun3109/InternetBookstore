@@ -62,15 +62,16 @@ class JdUser(models.Model):
         db_table = 'jd_user'
 
 
-class User(models.Model):
-    username = models.CharField(max_length=100, unique=True)
-    password = models.CharField(max_length=32, unique=False)
-    class Meta:
-        db_table = "user"
+# class User(models.Model):
+#     username = models.CharField(max_length=100, unique=True)
+#     password = models.CharField(max_length=32, unique=False)
+#     class Meta:
+#         db_table = "user"
 
 class Shop(models.Model):
+    picture=models.CharField(max_length=255,blank=True,null=True)
     bookname = models.CharField(max_length=100,unique=False)
-    price = models.FloatField()
+    price = models.CharField(max_length=63, blank=True, null=True)
     num = models.PositiveSmallIntegerField()
 
     class Meta:
