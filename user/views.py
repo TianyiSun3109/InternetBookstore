@@ -24,7 +24,8 @@ def index(request):
 def mainpage(request):
     method = request.method # 请求方法
     username = request.session.get('username', '')
-    context = {'username': username}
+    goods = JdBook.objects.filter(year = 2018);
+    context = {'username': username, 'goods': goods}
     # if method == "GET":
     return render(request, "user/MainPage.html",context)
     
