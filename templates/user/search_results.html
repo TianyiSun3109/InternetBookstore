@@ -138,7 +138,7 @@
                     <!-- <li class="dakehu"><b></b><a href="#" >企业频道</a></li>  -->
                     <li class="app_jd"><b></b><a href="#">手机书店</a></li>
                     <li class="service"><b></b><a href="{% url 'faq_page' %}">F.A.Q</a></li>
-                    <li><b></b><a>网站导航</a></li>
+                    <li><b></b><a href="{% url 'mainpage' %}">回到主页</a></li>
                 </ul>
             </div>
         </div>
@@ -169,7 +169,7 @@
             </div>
         </div>
         <div id="my_jd" class="lf">
-            历史订单<b></b>
+            <a href="{% url 'history' %}">历史订单</a> <b></b>
         </div>
         <div id="settle_up" class="lf">
             <a href="{% url 'shopping_car' %}">去购物车结算</a><b></b>

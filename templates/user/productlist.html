@@ -68,6 +68,7 @@
 	text-decoration: line-through;
 }
 .a22{
+    margin-top: 30px;
     font-size: 25px;
 	background-color: #F6F9FB;
 }
@@ -83,7 +84,7 @@
 .a23{
     background-color: #F2F5F8;
     font-size: 25px;
-	margin-top: 10px;
+	margin-top: 30px;
 }
 .a23 .ping{
     font-size: 15px;
@@ -94,7 +95,7 @@
 	margin-left: 200px;
 }
 .a24{
-	margin-top: 10px;
+	margin-top: 30px;
 }
 .a24 .bang{
 	display: inline-block;
@@ -115,7 +116,7 @@
 	width: 200px;
 	height: 60px;
 	border-radius: 30px;
-	margin-left: 200px;
+	margin-left: 180px;
 }
 .a25 .add-to-cart{
     font-size: 18px;
@@ -176,7 +177,7 @@
             </div>
         </div>
         <div id="my_jd" class="lf">
-            我的书店<b></b>
+            <a href="{% url 'history' %}">历史订单</a><b></b>
         </div>
         <div id="settle_up" class="lf">
             <a href="{% url 'shopping_car' %}">去购物车结算</a><b></b>
