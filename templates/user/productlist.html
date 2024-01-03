@@ -13,6 +13,7 @@
 	            padding-bottom: 50px;
 	            margin-top: -80px;
 	            margin-bottom: 1px;
+
             }
             .all .content{
 	            margin-top: 0px;
@@ -30,18 +31,28 @@
 }
 #content .a1 .big{
 	/* float: left; */
-	width: 450px;
+	width: 400px;
 	height: 400px;
 }
 .a2{
+    width: 600px;
 	float: left;
+	font-size: 35px;
 	margin-left: 90px;
+}
+.a2 .biaoti{
+    display: block;
+    text-align: center;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 .a21 .color{
 	color: #758188;
 }
 .a21 .a211{
 	background-color: #F2F5F8;
+	font-size: 25px;
 	color: #758188;
 }
 .a21 .a211 .prices,.shic{
@@ -49,26 +60,38 @@
 }
 .a21 .a211 .prices{
 	color: #FF4F0D;
-	font-size: 35px;
+	margin-left: 250px;
+	font-size: 25px;
 	font-weight: bold;
 }
 .a21 .a211 .prices2{
 	text-decoration: line-through;
 }
-.a21 .a211 .yis{
-	margin-left: 230px;
-}
 .a22{
+    font-size: 25px;
 	background-color: #F6F9FB;
 }
 .a22 span,p{
 	margin-top: 10px;
 }
 .a22 .neir{
-	margin-left: 50px;
+	margin-left: 250px;
+}
+.a22 .neirt{
+	margin-left: 200px;
 }
 .a23{
+    background-color: #F2F5F8;
+    font-size: 25px;
 	margin-top: 10px;
+}
+.a23 .ping{
+    font-size: 15px;
+	margin-left: 225px;
+}
+.a23 .pei{
+    font-size: 15px;
+	margin-left: 200px;
 }
 .a24{
 	margin-top: 10px;
@@ -92,21 +115,10 @@
 	width: 200px;
 	height: 60px;
 	border-radius: 30px;
-	margin-left: 30px;
+	margin-left: 200px;
 }
-.a25 .a25color1{
-	background-color: #FFEEE8;
-	color: #FF4F0D;
-	font-size: 20px;
-	font-weight: bolder;
-	border: 1px #FF4F0D solid;
-}
-.a25 .a25color2{
-	background-color: #FF4F0D;
-	color: white;
-	font-size: 20px;
-	font-weight: bolder;
-	border: 1px #FF4F0D solid;
+.a25 .add-to-cart{
+    font-size: 18px;
 }
 
         </style>
@@ -195,9 +207,11 @@
                     <img class="big" src="{{book.picture}}">
 					</div>
 				<div class="a2">
-                    <h2>{{book.name}}</h2>
+                    <span class="biaoti">{{book.name}}</span>
+                    <p></p>
 					<div class="a21">
 						<div class="a211">
+                            <p></p>
 							<span class="color">售价</span>
                             <span class="prices">{{ book.jiage }}</span>
 						</div>
@@ -207,12 +221,15 @@
                             <span class="neir" name="authorname">{{book.author}}</span>
 							<p></p>
                             <span class="color">出版时间</span>
-                            <span class="neir">{{book.chuban}}</span>
+                            <span class="neirt">{{book.chuban}}</span>
 						</div>
 						<div class="a23">
 							<p></p>
                             <span class="color">评论数</span>
-                            <p>{{book.pinglun}}</p>
+                            <span class="ping">{{book.pinglun}}</span>
+                            <p></p>
+                            <span class="color">配送说明</span>
+                            <span class="pei">东南大学九龙湖校区</span>
                         </div>
                     </div>
 				
@@ -306,7 +323,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         var username = "{{ username }}";
-        var bookName = document.querySelector('.a2 h2').textContent;
+        var bookName = document.querySelector('.a2 .biaoti').textContent;
         // 获取价格
         var bookPrice = document.querySelector('.a2 .prices').textContent;
 
