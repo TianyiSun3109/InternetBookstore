@@ -180,9 +180,12 @@ def checkout(request):
 
         # Move items from shopping cart to history
         shop_records =Shop.objects.filter(uname=username)
-
+        history_records = history.objects.all()
         # 复制记录到history表
-        id =1
+        id = 1
+        for history_record in history_records:
+            id = id + 1
+
         for shop_record in shop_records:
             history.objects.create(uname=shop_record.uname,picture=shop_record.picture, bookname=shop_record.bookname,
                                     price=shop_record.price,num=shop_record.num,id=id
