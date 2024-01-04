@@ -20,11 +20,18 @@ Django
 
 本项目使用的是`Django 4.2.4`.
 
-分别在manage.py的同级目录下，终端中输入
+首先执行爬虫.py爬取书籍数据，然后分别在manage.py的同级目录下，终端中输入
 
 ```
 python manage.py makemigrations
 python manage.py migrate
+```
+
+进行数据库的迁移，随后执行jd.sql将爬到的数据写入数据库.
+
+之后执行
+
+```
 python manage.py runserver
 ```
 
