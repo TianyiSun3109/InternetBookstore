@@ -312,46 +312,43 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var username = "{{ username }}";
-        var bookName = document.querySelector('.a2 .biaoti').textContent;
-        // 获取价格
-        var bookPrice = document.querySelector('.a2 .prices').textContent;
+    var addToCartButtons = document.querySelectorAll('.add-to-cart');
 
-        //获取图片
-        var bookPicture = document.querySelector('.a1 .big').getAttribute('src');
+    addToCartButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
 
-        var addToCartButtons = document.querySelectorAll('.add-to-cart');
+            // 获取当前点击按钮所在的书籍信息
+            var bookContainer = button.closest('#book_info');
+            var bookName = bookContainer.querySelector('.a2 .biaoti').textContent;
+            var bookPrice = bookContainer.querySelector('.a2 .prices').textContent;
+            var bookPicture = bookContainer.querySelector('.a1 .big').getAttribute('src');
+            var username = "{{ username }}";
 
-
-        addToCartButtons.forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                // var productId = button.getAttribute('data-product-id');
-                
-
-                // 发送AJAX请求将商品添加到购物车
-                $.ajax({
-                    type: 'POST',
-                    url: '../add_to_cart/',  // 你的添加到购物车的URL
-                    data: { bookName: bookName ,
-                            bookPrice:bookPrice,
-                            bookPicture:bookPicture,
-                            username: username
-                            },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('商品已添加到购物车！');
-                        } else {
-                            alert('添加到购物车失败！');
-                        }
-                    },
-                    error: function () {
-                        alert('添加到购物车失败，发生了错误！');
+            // 发送AJAX请求将商品添加到购物车
+            $.ajax({
+                type: 'POST',
+                url: '../add_to_cart/',  // 你的添加到购物车的URL
+                data: {
+                    bookName: bookName,
+                    bookPrice: bookPrice,
+                    bookPicture: bookPicture,
+                    username: username
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert('商品已添加到购物车！');
+                    } else {
+                        alert('添加到购物车失败！');
                     }
-                });
+                },
+                error: function () {
+                    alert('添加到购物车失败，发生了错误！');
+                }
             });
         });
     });
+});
 </script>
 
 </body>
