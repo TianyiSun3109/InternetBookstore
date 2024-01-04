@@ -6,8 +6,11 @@
     <meta charset="utf-8" />
     <link rel="icon" href="../../static/img/favicon.ico">
     <link rel="stylesheet" href="../../static/css/jd.css">
-    <link rel="stylesheet" href="../../static/css/product.css">
+    <!link rel="stylesheet" href="../../static/css/product.css">
     <style>
+        #cart{
+            font-size: 16px;
+        }
     </style>
 </head>
 
@@ -93,22 +96,16 @@
                         <div class="affix">
                             <h4>欢迎！</h4>
                         </div>
-            <table id="cart">
-                <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox" class="all">
-                        <!input type="checkbox" id="selAll"/>
-                        <!label for="sel">全选<!/label>
-                    </th>
-                    <th>商品</th>
-                    <th>单价（元）</th>
-                    <th>数量</th>
-                    <th>小计</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
+            <table id="cart" align="center">
+                <td class="all" style="width:20%;">
+                    <input type="checkbox">全选
+                </td>
+                <td class="a1" style="width:16%;">商品</td>
+                <td class="a2" style="width:16%;">单价（元）</td>
+                <td class="a3" style="width:16%;">数量</td>
+                <td class="a4" style="width:16%;">小计</td>
+                <td class="a5" style="width:16%;">操作</td>
+
                 {% for book in results %}
                 <tr>
                     <td>
@@ -116,13 +113,13 @@
                         <input type="hidden" value= "{{book.id}}" />
                         <div><img src="{{book.picture}}" alt=""/></div>
                     </td>
-                    <td><a href="">{{book.bookname}}</a></td>
+                    <td class="a6"><a href="">{{book.bookname}}</a></td>
                     <td class="price" value="{{book.price}}"><a>{{book.price}}</a></td>
-                    <td>
-                        <button class="reduce" >-</button><input type="text" class="count" value="{{book.num}}" data-book-id="{{ book.id }}"/><button class="add">+</button>
+                    <td class="a7">
+                        <button class="reduce">-</button><input style="width:20%;" type="text" class="count" value="{{book.num}}" data-book-id="{{ book.id }}"/><button class="add">+</button>
                     </td>
                     <td class="total"><span>{{book.price}}</span></td>
-                    <td><a href="" class="delete-book" data-book-id="{{ book.id }}">删除</a></td>
+                    <td class="a8"><a href="" class="delete-book" data-book-id="{{ book.id }}">删除</a></td>
                 </tr>
                 {% endfor %}
 								

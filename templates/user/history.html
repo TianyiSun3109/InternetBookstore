@@ -7,6 +7,11 @@
     <link rel="icon" href="../../static/img/favicon.ico">
     <link rel="stylesheet" href="../../static/css/jd.css">
     <link rel="stylesheet" href="../../static/css/product.css">
+    <style>
+        #cart{
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
@@ -91,21 +96,12 @@
             <div class="affix">
                 <h4>欢迎！</h4>
             </div>
-            <table id="cart">
-                <thead>
-                    <tr>
-                        <th>
-                            <!-- <input type="checkbox" class="all">
-                            <!input type="checkbox" id="selAll" />
-                            <!label for="sel">全选<! /label> -->
-                        </th>
-                        <th>商品</th>
-                        <th>单价（元）</th>
-                        <th>数量</th>
-                        <th>小计</th>
-
-                    </tr>
-                </thead>
+            <table id="cart" align="center">
+                <td style="width:20%;"></td>
+                <td style="width:20%;">商品</td>
+                <td style="width:20%;">单价（元）</td>
+                <td style="width:20%;">数量</td>
+                <td style="width:20%;">小计</td>
                 <tbody>
                     {% for book in results %}
                     <tr>
