@@ -1,18 +1,18 @@
 SET NAMES UTF8;
--- DROP DATABASE IF EXISTS jd;
--- CREATE DATABASE jd CHARSET=UTF8;
+DROP DATABASE IF EXISTS jd;
+CREATE DATABASE jd CHARSET=UTF8;
 USE jd;
 
--- CREATE TABLE jd_user(
---   uid INT PRIMARY KEY AUTO_INCREMENT, 
---   uname VARCHAR(32),
---   upwd VARCHAR(32)
--- );
+CREATE TABLE jd_user(
+  uid INT PRIMARY KEY AUTO_INCREMENT, 
+  uname VARCHAR(32),
+  upwd VARCHAR(32)
+);
 
 
--- INSERT INTO jd_user VALUES
--- ('1','qiangdong','123456'),
--- ('2','naicha','456789');
+INSERT INTO jd_user VALUES
+('1','qiangdong','123456'),
+('2','naicha','456789');
 
 
 CREATE TABLE IF NOT EXISTS jd_book (
